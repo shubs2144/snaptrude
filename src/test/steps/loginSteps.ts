@@ -1,47 +1,42 @@
+// src/steps/LoginSteps.ts
+
 import { Given, When, Then, setDefaultTimeout } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { pageFixture } from '../../hooks/pageFixture';
+import LoginPage from '../../pageObjects/LoginPage';
+
+let loginPage: LoginPage;
 
 setDefaultTimeout(60 * 1000 * 2);
 
 Given('User navigates to the application', async function () {
-  await pageFixture.page.goto('https://bookcart.azurewebsites.net/');
+  loginPage = new LoginPage(pageFixture.page);
+  await loginPage.navigateToLoginPage();
 });
 
 Given('User click on the login link', async function () {
-  await pageFixture.page.locator('//span[text()="Login"]').click();
-  // await pageFixture.page.locator('.mat-focus-indicator.mat-button.mat-button-base.ng-star-inserted').click();
+  await loginPage.clickLoginLink();
 });
 
 Given('User enter the username as {string}', async function (username) {
-  await pageFixture.page
-    .locator('input[formcontrolname="username"]')
-    .type(username);
+  await loginPage.enterUsername(username);
 });
 
 Given('User enter the password as {string}', async function (password) {
-  await pageFixture.page
-    .locator('input[formcontrolname="password"]')
-    .type(password);
+  await loginPage.enterPassword(password);
 });
 
 When('User click on the login button', async function () {
-  await pageFixture.page.locator('button[color="primary"]').click();
-  // await pageFixture.page.locator('.mat-focus-indicator.mat-raised-button.mat-button-base.mat-primary').click();
-  await pageFixture.page.waitForLoadState();
-  await pageFixture.page.waitForTimeout(2000);
+  await loginPage.clickLoginButton();
 });
 
 Then('Login should be success', async function () {
-  const textMessage = await pageFixture.page
-    .locator(
-      '//button[contains(@class,"mat-focus-indicator mat-menu-trigger")]//span[1]',
-    )
-    .textContent();
+  const textMessage = await loginPage.getLoggedInUsername();
   console.log('Username: ' + textMessage);
+  expect(textMessage).not.toBeNull();
 });
 
 When('Login should fail', async function () {
-  const errorMessage = pageFixture.page.locator('mat-error[role="alert"]');
-  await expect(errorMessage).toBeVisible();
+  const isErrorVisible = await loginPage.isLoginErrorVisible();
+  expect(isErrorVisible).toBe(true);
 });

@@ -2,6 +2,7 @@ import { Given, When, Then, setDefaultTimeout } from '@cucumber/cucumber';
 // import { expect } from '@playwright/test';
 import { pageFixture } from '../../hooks/pageFixture';
 import DashboardPage from '../../pageObjects/dashboardPage';
+import { expect } from '@playwright/test';
 // import LoginPage from '../../pageObjects/DashboardPage';
 
 
@@ -33,10 +34,10 @@ When('I click on the create button', async function () {
   await pageFixture.page.waitForTimeout(2000);
 });
 
-// Then('I should see a popup message saying {string}', async function (string) {
-//   await dashboardPage.getWarningMessage().then(async (message) => {
-//     console.log('Warning Message:', message);
-//     expect(message).toBe(string);
-//   });
-//   await pageFixture.page.waitForTimeout(2000);
-// });
+Then('I should see a popup message saying {string}', async function (string) {
+  await dashboardPage.getWarningMessage().then(async (message) => {
+    console.log('Warning Message:', message);
+    expect(message).toBe(string);
+  });
+  await pageFixture.page.waitForTimeout(2000);
+});

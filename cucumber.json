@@ -3,7 +3,7 @@
     "formatOptions": {
       "snippetInterface": "async-await"
     },
-    "paths": ["src/test/features/createTeam.feature"],
+    "paths": ["src/test/features/shareProject.feature"],
     "publishQuiet": true,
     "dryRun": false,
     "require": ["src/test/steps/*.ts", "src/hooks/hooks.ts"],

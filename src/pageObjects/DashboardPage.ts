@@ -22,6 +22,10 @@ export default class DashboardPage {
     teamNameInput: () => this.page.locator("(//input[@id='create-team-name'])[1]"),
     createTeamButton: () => this.page.locator("//button[normalize-space()='Create']"),
     // warningMessage: () => this.page.locator("//div[@class='sc-kUnTIk hUmfei']"),
+    shareButton: () => this.page.locator("//button[@id='share-project-button']"),
+    emailInput: () => this.page.locator("//input[@placeholder='Enter email address to invite someone']"),
+    sendInviteButton: () => this.page.locator("//button[@class='sc-ixGGxD hBQgjD']"),
+    warningMessage: () => this.page.locator("//div[@class='sc-kUnTIk hUmfei']"),
 
   };
 
@@ -125,7 +129,24 @@ export default class DashboardPage {
     await this.page.waitForTimeout(2000);
   }
 
+ async clickShareButton() { 
+    await this.locators.shareButton().click();
+    await this.page.waitForTimeout(2000);
+  }
 
+  async enterEmail(email: string) {
+    await this.locators.emailInput().fill(email);
+    await this.page.waitForTimeout(2000);
+  }
+
+  async clickSendInviteButton() {
+    await this.locators.sendInviteButton().click();
+    await this.page.waitForTimeout(2000);
+  }
+
+  async getWarningMessage() {
+    return await this.locators.warningMessage().textContent();
+  }
 
 
   

@@ -1,4 +1,4 @@
-# Ignore the project's node_modules directory
+## Ignore the project's node_modules directory
 node_modules/
 
 # Ignore test results directory

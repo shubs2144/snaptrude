@@ -14,7 +14,7 @@ let canvasProject: CanvasProject;
 let carpetArea: number = 0;
 let AfterDrawingcarpetArea: number = 0;
 
-setDefaultTimeout(60 * 1000 * 2);
+setDefaultTimeout(50 * 1000);
 
 Given('I have a new project open on the canvas', async function () {
   dashboardPage = new DashboardPage(pageFixture.page);

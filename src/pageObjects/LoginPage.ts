@@ -38,12 +38,12 @@ export default class LoginPage {
     await this.locators.loginButton().click();
     // await this.page.waitForLoadState();
     // await this.page.waitForTimeout(2000);
-    await this.locators.newProjectButton().waitFor({ state: 'visible', timeout: 10000 });
+    await this.locators.newProjectButton().waitFor({ state: 'visible', timeout: 5000 });
   }
 
   async getLoggedInUsername(): Promise<string | null> {
     const projectButton = this.locators.newProjectButton();
-    await projectButton.waitFor({ state: 'visible', timeout: 10000 });
+    await projectButton.waitFor({ state: 'visible', timeout: 5000 });
     return await projectButton.textContent();
   }
 

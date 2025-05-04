@@ -9,7 +9,7 @@ import CanvasProject from '../../pageObjects/CanvasProject';
 let dashboardPage: DashboardPage;
 let canvasProject: CanvasProject;
 
-setDefaultTimeout(60 * 1000 * 2);
+setDefaultTimeout(50 * 1000);
 
 Given('I have a project open on the canvas', async function () {
     dashboardPage = new DashboardPage(pageFixture.page);

@@ -8,8 +8,7 @@ import DashboardPage from '../../pageObjects/dashboardPage';
 
 
 let dashboardPage: DashboardPage;
-
-setDefaultTimeout(60 * 1000 * 2);
+setDefaultTimeout(50 * 1000);
 
 
 // When('I click on {string}', async function (string) {

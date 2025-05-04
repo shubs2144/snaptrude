@@ -7,7 +7,7 @@ import LoginPage from '../../pageObjects/LoginPage';
 
 let loginPage: LoginPage;
 
-setDefaultTimeout(60 * 1000 * 2);
+setDefaultTimeout(50 * 1000);
 
 Given('User navigates to the application', async function () {
   loginPage = new LoginPage(pageFixture.page);

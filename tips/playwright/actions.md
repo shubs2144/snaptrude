@@ -1,4 +1,4 @@
-## Actions
+### Actions
 
 - `locator.check()` Check the input checkbox
 - `locator.click()` Click the element

@@ -9,7 +9,7 @@ import { expect } from '@playwright/test';
 
 let dashboardPage: DashboardPage;
 
-setDefaultTimeout(60 * 1000 * 2);
+setDefaultTimeout(50 * 1000);
 
 
 Given('I navigate to the Teams dashboard should be visible create a team title', async function () {

@@ -25,8 +25,6 @@ Given('I have a new project open on the canvas', async function () {
 When('I activate the draw rectangle tool', async function () {
   await dashboardPage.clickRectangleIcon();
   await pageFixture.page.waitForTimeout(2000);
-  carpetArea =await canvasProject.areaElementGetText();
-  console.log('Area Element Text:', carpetArea );
 });
 
 When('I click once on the canvas to start the rectangle', async function () {
@@ -49,11 +47,10 @@ Given('User enter the width as {string}', async function (width) {
   
 });
 
-// Given('I capture the carpet area before drawing the rectangle', async function () {
-//   const areaText = await canvasProject.getAreaValue();
-//   previousArea = parseFloat(areaText?.replace(/[^\d.]/g, '') || '0');
-//   console.log('Before Drawing Area:', previousArea);
-// });
+Given('I capture the carpet area before drawing the rectangle', async function () {
+  carpetArea =await canvasProject.areaElementGetText();
+  console.log('Area Element Text:', carpetArea );
+});
 
 Then('the carpet area value should be greater than previous value', async function () {
 

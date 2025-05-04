@@ -49,18 +49,7 @@ export default class CanvasProject {
     async getPopupMessage() {
         return await this.locators.PopupMessage().textContent();
     }
-
-    // async areaElementGetText() {
-    //     return await this.locators.areaElement().textContent();
-        
-    // }   
-    // async areaElementGetText(): Promise<string | null> {
-    //     const fullText = await this.locators.areaElement().textContent();
-    //     if (!fullText) return null;
-      
-    //     const match = fullText.match(/[\d.]+/); // This regex captures digits and decimal point
-    //     return match ? match[0] : null;
-    //   }
+    
     async areaElementGetText(): Promise<number> {
         try {
           const fullText = await this.locators.areaElement().textContent();

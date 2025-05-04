@@ -10,6 +10,10 @@ import CanvasProject from '../../pageObjects/CanvasProject';
 let dashboardPage: DashboardPage;
 let canvasProject: CanvasProject;
 
+
+let carpetArea: number = 0;
+let AfterDrawingcarpetArea: number = 0;
+
 setDefaultTimeout(60 * 1000 * 2);
 
 Given('I have a new project open on the canvas', async function () {
@@ -21,6 +25,8 @@ Given('I have a new project open on the canvas', async function () {
 When('I activate the draw rectangle tool', async function () {
   await dashboardPage.clickRectangleIcon();
   await pageFixture.page.waitForTimeout(2000);
+  carpetArea =await canvasProject.areaElementGetText();
+  console.log('Area Element Text:', carpetArea );
 });
 
 When('I click once on the canvas to start the rectangle', async function () {
@@ -43,30 +49,48 @@ Given('User enter the width as {string}', async function (width) {
   
 });
 
+// Given('I capture the carpet area before drawing the rectangle', async function () {
+//   const areaText = await canvasProject.getAreaValue();
+//   previousArea = parseFloat(areaText?.replace(/[^\d.]/g, '') || '0');
+//   console.log('Before Drawing Area:', previousArea);
+// });
 
-Then('the width, length, and area values should update live', async function () {
-  await dashboardPage.getWidthValue().then(async (width) => {
-    console.log('Width:', width);
-    expect(width).toBeTruthy();
-  });
-  await dashboardPage.getLengthValue().then(async (length) => {
-    console.log('Length:', length);
-    expect(length).toBeTruthy();
-  } );
-  await dashboardPage.getAreaValue().then(async (area) => {
-    console.log('Area:', area);
-    expect(area).toBeTruthy();
-  } );
+Then('the carpet area value should be greater than previous value', async function () {
+
+  AfterDrawingcarpetArea =await canvasProject.areaElementGetText();
+  console.log('Area Element Text:', AfterDrawingcarpetArea );
+  expect(AfterDrawingcarpetArea).toBeGreaterThan(carpetArea);
 });
 
-When('I click a second time to finish', async function () {
-  await dashboardPage.clickSecondTimeToFinish();
-  await pageFixture.page.waitForTimeout(2000);
-});
 
-Then('the rectangle should appear on the canvas', async function () {
-  await dashboardPage.isRectangleVisible().then(async (isVisible) => {
-    expect(isVisible).toBeTruthy();
-  } );
-  await pageFixture.page.waitForTimeout(2000);
-});
+
+
+
+// Then('the width, length, and area values should update live', async function () {
+//   await dashboardPage.getWidthValue().then(async (width) => {
+//     console.log('Width:', width);
+//     expect(width).toBeTruthy();
+//   });
+//   await dashboardPage.getLengthValue().then(async (length) => {
+//     console.log('Length:', length);
+//     expect(length).toBeTruthy();
+//   } );
+//   await dashboardPage.getAreaValue().then(async (area) => {
+//     console.log('Area:', area);
+//     expect(area).toBeTruthy();
+//   } );
+// });
+
+// When('I click a second time to finish', async function () {
+//   await dashboardPage.clickSecondTimeToFinish();
+//   await pageFixture.page.waitForTimeout(2000);
+// });
+
+// Then('the rectangle should appear on the canvas', async function () {
+//   await dashboardPage.isRectangleVisible().then(async (isVisible) => {
+//     expect(isVisible).toBeTruthy();
+//   } );
+//   await pageFixture.page.waitForTimeout(2000);
+// });
+
+

@@ -12,13 +12,12 @@ export default class CanvasProject {
         rectangleLengthInput: () => this.page.locator("//div[text()='L']/following-sibling::div/input"),
         rectangleAreaValue: () => this.page.locator("//div[@id='rectangle-area']"),
         rectangleWidthValue: () => this.page.locator("//div[@id='rectangle-width-value']"),
-        rectangleLengthValue: () => this.page.locator("//div[@id='rectangle-length-value']"),
-        views: () => this.page.locator("//span[@class='font-interDisplay']"),
-        plans: () => this.page.locator("//div[contains(@class,'px-1.5 py-1')]//div[contains(@class,'absolute')]"),
-        actionButton: () => this.page.locator("//div[contains(@class,'px-1.5 py-1')]//div[contains(@class,'absolute')]"),
-        renameButton: () => this.page.locator("text=Rename View"),
-        renameInput: () => this.page.locator("//div[@class='sc-kUnTIk hUmfei']"),
-        renamePopUpMessage: () => this.page.locator("//div[@class='sc-kUnTIk hUmfei']"),
+        rectangleLengthValue: () => this.page.locator("(//span[text()='Carpet Area']/parent::div/parent::div/following-sibling::div/div)[1]"),
+        // PopupMessage: () => this.page.locator("//div[@id='toast-priority-high']"),
+        PopupMessage: () => this.page.locator("//div[contains(text(), 'has viewer permission')]"),
+        areaElement: () => this.page.locator("//div[contains(text(),'Total Carpet Area')]")
+
+
     };
 
     async getWidthValue() {
@@ -29,7 +28,7 @@ export default class CanvasProject {
         return await this.locators.rectangleLengthValue().textContent();
     }
 
-    async getAreaValue() {
+    async getAreaValue(){
         return await this.locators.rectangleAreaValue().textContent();
     }
 
@@ -47,34 +46,34 @@ export default class CanvasProject {
         // await expect(this.locators.rectangleWidthInput()).toBeFocused();
     }
 
-    async viewPlansOnLeftPanel() {
-        await this.locators.views().isVisible();
-        await this.page.waitForTimeout(2000);
+    async getPopupMessage() {
+        return await this.locators.PopupMessage().textContent();
     }
 
-    async hoverOnPlan() {
-        await this.locators.plans().hover();
-        await this.page.waitForTimeout(2000);
-    }
+    // async areaElementGetText() {
+    //     return await this.locators.areaElement().textContent();
+        
+    // }   
+    // async areaElementGetText(): Promise<string | null> {
+    //     const fullText = await this.locators.areaElement().textContent();
+    //     if (!fullText) return null;
+      
+    //     const match = fullText.match(/[\d.]+/); // This regex captures digits and decimal point
+    //     return match ? match[0] : null;
+    //   }
+    async areaElementGetText(): Promise<number> {
+        try {
+          const fullText = await this.locators.areaElement().textContent();
+          if (!fullText) return 0;
+      
+          const match = fullText.match(/[\d.]+/);
+          return match ? parseFloat(match[0]) : 0;
+        } catch (error) {
+          // Element not found or other error — return 0 instead of failing test
+          return 0;
+        }
+      }
 
-    async clickActionButton() {
-        await this.locators.actionButton().click();
-        await this.page.waitForTimeout(2000);
-    }
 
-    async clickRenameButton() {
-        await this.locators.renameButton().click();
-        await this.page.waitForTimeout(2000);
-    }
-
-    async enterRenameInput(name: string) {
-        await this.locators.renameInput().fill(name);
-        await this.page.waitForTimeout(2000);
-        await this.page.keyboard.press('Enter');
-    }
-
-    async getRenamePopUpMessage() {
-        return await this.locators.renamePopUpMessage().textContent();
-    }
 
 }

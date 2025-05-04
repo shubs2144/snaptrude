@@ -14,7 +14,7 @@ export default class DashboardPage {
     projectNameInput: () => this.page.locator("//input[@id='create-project-name']"),
     unitSelect: () => this.page.locator("(//div[@class='sc-kUnTIk hUmfei'])[1]"),
     createProjectButton: () => this.page.locator("//button[normalize-space()='Create']"),
-    canvas: () => this.page.locator("//canvas[@id='canvas' and not(ancestor::div[@class='fixed left-1/2 top-[46px] z-10 flex -translate-x-1/2 transform items-center justify-center gap-1 rounded-xl bg-white p-1.5 border-custom'])]"),
+    canvas: () => this.page.locator("//canvas[@id='canvas']"),
     CreatedProject: () => this.page.locator("(//img[@class='dark-mode'])[1]"),
     clickRectangleIcon: () => this.page.locator("//img[@id='img-top-menu-bar-design-rectangle']"),
     createTeam: () => this.page.locator("(//div[@class='sc-fJqfNw eirkje'])[1]"),
@@ -25,7 +25,9 @@ export default class DashboardPage {
     shareButton: () => this.page.locator("//button[@id='share-project-button']"),
     emailInput: () => this.page.locator("//input[@placeholder='Enter email address to invite someone']"),
     sendInviteButton: () => this.page.locator("//button[@class='sc-ixGGxD hBQgjD']"),
-    warningMessage: () => this.page.locator("//div[@class='sc-kUnTIk hUmfei']"),
+    warningMessage: () => this.page.locator("//div[contains(text(), 'Trial users cannot create a team')]"),
+    getPopupMessage: () => this.page.locator("text='shubspatil17@gmail.com is already present and has viewer permission.'"),
+    // getPopupMessage: () => this.page.locator("//div[@class='sc-kUnTIk hUmfei']"),
 
   };
 
@@ -66,9 +68,19 @@ export default class DashboardPage {
   }
 
   async clickOnCanvas() {
-    await this.locators.canvas().click();
-    await this.page.waitForTimeout(2000);
+  const canvas = this.locators.canvas().first(); // Adjust selector if needed
+  const box = await canvas.boundingBox();
+
+  if (box) {
+    const startX = box.x + box.width / 2;
+    const startY = box.y + box.height / 2 + 50; // Avoid top bar overlap
+
+    await this.page.mouse.move(startX, startY);
+    await this.page.mouse.down();
+  } else {
+    throw new Error('Canvas not found');
   }
+}
 
   // async moveCursorToStretchShape() {
   //   await this.page.mouse.move(6000, 6000); // Move the cursor to stretch the shape
@@ -79,13 +91,18 @@ export default class DashboardPage {
   // }
 
   async moveCursorToStretchShape() {
-    // Scroll by specific amounts
-    await this.page.mouse.move(0, 3000);
-    await this.page.waitForTimeout(2000);
-    
-    // Click on the canvas
-    await this.locators.canvas().click();
-    await this.page.waitForTimeout(2000);
+    const canvas = this.locators.canvas().first();
+    const box = await canvas.boundingBox();
+  
+    if (box) {
+      const endX = box.x + box.width / 2 + 100; // adjust stretch width
+      const endY = box.y + box.height / 2 + 100; // adjust stretch height
+  
+      await this.page.mouse.move(endX, endY);
+      await this.page.mouse.up();
+    } else {
+      throw new Error('Canvas not found');
+    }
   }
 
   async clickSecondTimeToFinish() {
@@ -148,6 +165,9 @@ export default class DashboardPage {
     return await this.locators.warningMessage().textContent();
   }
 
+  async getPopupMessage() {
+    return await this.locators.getPopupMessage().textContent();
+  }
 
   
 }
